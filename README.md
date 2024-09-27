@@ -28,7 +28,7 @@ All sound files are loaded from the `soundeffects/<samplerate>` folder. Some sam
 
 ### How to create sounds
 I followed this simple procedure to create the sample sound effects:
-1. Use youtube-dl (or its fork yt-dlp) to download the youtube video containing the sound (tip: -f140 grabs the 44.1khz audio, -f251 grabs the 48khz audio)
+1. Use `youtube-dl` (or its fork `yt-dlp`) to download the youtube video containing the sound (tip: `-f140` grabs the 44.1khz audio, `-f251` grabs the 48khz audio)
 2. Use Audacity to edit the clip down to the minimum size of just the soundbite
 3. Export as signed 16-bit stereo (2ch) WAV into the soundeffects/`<samplerate>` folder
 
