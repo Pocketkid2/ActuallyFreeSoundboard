@@ -36,4 +36,4 @@ I followed this simple procedure to create the sample sound effects:
 - Sounds don't play correctly. This is probably an issue to do with the mixing code, it all came from GitHub copilot so it's not that great.
 
 ### Future plans
-None so far
+- A new default sound: CaseOh "We are cooked"
