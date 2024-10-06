@@ -40,9 +40,9 @@ def select_device(devices, device_type):
     print(f"Select {device_type} device:")
     for i, (index, name, max_input, max_output, sample_rate) in enumerate(devices):
         if device_type == "microphone" and max_input > 0:
-            print(f"{i}: {name} (Input Channels: {max_input}, Sample Rate: {sample_rate})")
+            print(f"{i}: {name} (Channels: {max_input}, Sample Rate: {sample_rate})")
         elif device_type == "playback" and max_output > 0:
-            print(f"{i}: {name} (Output Channels: {max_output}, Sample Rate: {sample_rate})")
+            print(f"{i}: {name} (Channels: {max_output}, Sample Rate: {sample_rate})")
     selected_index = int(input(f"Enter the number of the {device_type} device: "))
     return devices[selected_index]
 
@@ -95,9 +95,9 @@ def main():
     mixed_playback_device = select_device(devices, "playback")
 
     # Print selected device sample rates and channels
-    print(f"Selected microphone device sample rate: {mic_device[4]}, Input Channels: {mic_device[2]}")
-    print(f"Selected sound effects playback device sample rate: {sound_effects_playback_device[4]}, Output Channels: {sound_effects_playback_device[3]}")
-    print(f"Selected mixed playback device sample rate: {mixed_playback_device[4]}, Output Channels: {mixed_playback_device[3]}")
+    print(f"Selected microphone device sample rate: {mic_device[4]}, Channels: {mic_device[2]}")
+    print(f"Selected sound effects playback device sample rate: {sound_effects_playback_device[4]}, Channels: {sound_effects_playback_device[3]}")
+    print(f"Selected mixed playback device sample rate: {mixed_playback_device[4]}, Channels: {mixed_playback_device[3]}")
 
     # Determine the folder to scan for sound effects based on the sample rate
     sample_rate_folder = f"soundeffects/{int(mic_device[4])}"
@@ -117,6 +117,10 @@ def main():
                           input=True,
                           input_device_index=mic_device[0],
                           frames_per_buffer=1024)
+    # Print the data type of the microphone input samples
+    input_audio = input_stream.read(1024)
+    input_audio_np = np.frombuffer(input_audio, dtype=np.int16)
+    print(f"Microphone input sample data type: {input_audio_np.dtype}")
 
     # Open output stream for sound effects
     sound_effects_output_stream = p.open(format=pyaudio.paInt16,
@@ -166,6 +170,7 @@ def main():
                 # Check if there is a current sound effect to play
                 with current_sound_effect_lock:
                     if current_sound_effect is not None:
+                        print(f"Sound effect sample data type: {current_sound_effect.dtype}")
                         # Mix the sound effect with the input audio
                         mixed_audio_np = mix_audio(mixed_audio_np, current_sound_effect)
                         # Play the sound effect on the sound effects output stream
