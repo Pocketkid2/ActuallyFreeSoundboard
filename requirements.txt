@@ -1,5 +1,3 @@
-pyaudio
 keyboard
-numpy
 sounddevice
-scipy
+soundfile
